@@ -1,0 +1,36 @@
+{
+  "name": "e-voting-uk",
+  "version": "1.0.0",
+  "description": "An E-Voting Project ",
+  "main": "src/index.js",
+  "scripts": {
+    "tw": "tailwindcss -i ./src/styles.css -o ./public/css/app.css --watch",
+    "js": "webpack",
+    "dev": "webpack && npm run tw"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/destinybravos/e-voting-uk.git"
+  },
+  "keywords": [
+    "voting",
+    "electronic",
+    "modern",
+    "election"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/destinybravos/e-voting-uk/issues"
+  },
+  "homepage": "https://github.com/destinybravos/e-voting-uk#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.4",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "axios": "^1.7.1",
+    "moment": "^2.30.1"
+  }
+}
