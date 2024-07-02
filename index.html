@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Voting</title>
+    <link rel="stylesheet" href="public/css/app.css">
+    <link rel="stylesheet" href="public/fa_icons/css/all.css">
+</head>
+<body>
+    <!-- 
+        TEMPLATE: https://dribbble.com/shots/23548464-President-A-Political-Campaign-Website
+        BY: https://dribbble.com/Shakilworlds
+     -->
+
+    <section class="bg-secondary text-white sticky top-0">
+        <header class="py-4 px-4">
+            <div class="max-w-6xl mx-auto flex justify-between items-center">
+                <span>
+                    Election Project
+                </span>
+
+                <nav>
+                    <ul class="flex items-center gap-4">
+                        <li>
+                            <a href="#" class="flex items-center gap-1  py-1 px-3 rounded-md">Home</a>
+                        </li>
+                        <li>
+                            <a href="#about" class="flex items-center gap-1  py-1 px-3 rounded-md">About</a>
+                        </li>
+                        <li class="md:ml-32">
+                            <a href="public/auth/login.html" class="flex items-center gap-1 bg-primary py-1 px-3 rounded-md">
+                                <i class="fa fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="public/auth/register.html" class="flex items-center gap-1 border border-white hover:bg-primary py-1 px-3 rounded-md">
+                                <i class="fa fa-address-card"></i> Voter Registration
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </section>
+
+    <!-- Banner Section -->
+     <section class="min-h-[90dvh] bg-secondary text-white flex items-center">
+        <div class="max-w-6xl mx-auto h-full flex items-center gap-6">
+            <aside>
+                <div class="mx-auto max-w-[14rem] overflow-hidden bg-slate-500 rounded-2xl">
+                    <img src="public/assets/images/man_vote.jpg" alt="" class="object-cover">
+                </div>
+            </aside>
+
+            <aside class="px-4 max-w-lg">
+                <h1 class="text-3xl md:text-5xl font-bold mb-5">
+                    Election Management Project
+                </h1>
+                <p class="mb-6">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae tempore 
+                    assumenda numquam omnis minus hic perferendis corporis cumque, aliquid 
+                    consequuntur blanditiis ipsa expedita eaque dolores molestias, incidunt non 
+                    placeat distinctio!
+                </p>
+                <ul>
+                    <li class="">
+                        <a href="public/auth/login.html" class="inline-flex items-center gap-1 bg-primary py-1 px-3 rounded-md">
+                            Get Started <i class="fa fa-arrow-right"></i> 
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+     </section>
+
+    <!-- About Project section -->
+    <section class="min-h-screen">
+        <a href="#" name="about" target="_blank" rel="noopener noreferrer" class="block h-20 active:border-none focus:border-none active:ring-0 focus:ring-0 w-0"></a>
+
+        <h2 class="text-4xl text-center font-bold mb-7">
+            About Project
+        </h2>
+
+        <div class="max-w-6xl mx-auto mb-5">
+            <p class="mb-5">
+                In this coursework you are required as an individual, to design, build, test and evaluate a 
+                prototype web application that employs the technologies you will learn throughout the module. 
+                You are asked to build a Voter Registration web application for user registration and authentication, 
+                search and verification, adding, updating voter information, council wise segmentation, notifications 
+                and reminders.
+            </p>
+
+            <p class="mb-5">
+                The application is required to have more than one role and the roles are user, election 
+                officer and admin. Voters can register by providing personal details. Verify user identity 
+                during login. Users can search for their names in the voter list and verify their registration 
+                status. Display information such as name, address, and polling station. Election officials 
+                can add new voters or update existing voter details. Organize voters by councils,and polling 
+                stations. Send notifications about upcoming electionsand po ling dates. Announcements like 
+                Broadcast important messages to voters. The final functionality and specification of the web 
+                application you create is up to you.
+
+            </p>
+
+            <p class="mb-5">
+                As a minimum your application is likely to have 4 interface pages to allow users: to log in; 
+                to view a group of voters, to view an individual voter, and to add a voter. But it may have 
+                more depending on the functionality you decide to include. Note you may use standard templates, 
+                libraries, or existing APIs to support your design, but they must be acknowledged in your final 
+                report.
+            </p>
+        </div>
+
+        <!-- App Feature Starts Here -->
+        <section class="pb-10">
+            <div class="max-w-6xl mx-auto mb-5">
+                <h3 class="font-bold">
+                    The web application must contain the following features:
+                </h3>
+                <ol type="1" class="list-decimal ml-7">
+                    <li>The application must contain both front end (client-side) and back end (server-side) code.</li>
+                    <li>More than one user role, e.g. Voter, Election officer and Admin</li>
+                    <li>A login page for voter/Election officer.</li>
+                    <li>Pages to view and select voters.</li>
+                    <li>A system allowing voter or election officer to input details that can be stored and recalled from a database.</li>
+                </ol>
+            </div>
+    
+            <div class="max-w-6xl mx-auto mb-5">
+                <h3 class="font-bold">
+                    The web application should contain the following features:
+                </h3>
+                <ol type="1" class="list-decimal ml-7">
+                    <li>A file upload system to allow images to be added to the application</li>
+                    <li>Voters should be able to manage (edit and update) their own details.</li>
+                    <li>Election officers should be able to view the voters and filter them by location and category</li>
+                    <li>A user with an Administrator role should be able to login to gain access to the system.</li>
+                    <li>Administrators should be able to review and manage all voters on the system</li>
+                </ol>
+            </div>
+    
+            <div class="max-w-6xl mx-auto mb-5">
+                <h3 class="font-bold">
+                    The web application could contain the following features:
+                </h3>
+                <ol type="1" class="list-decimal ml-7">
+                    <li>An administrator panel showing system information e.g. number of voters</li>
+                    <li>A display of voters/users that shows them at location on a map view</li>
+                    <li>Improved code implementation to mitigate against common security issues.</li>
+                    <li>Send notifications about upcoming elections and polling dates that are important to voters</li>
+                </ol>
+            </div>
+    
+            <p class="max-w-6xl mx-auto mb-5">
+                You are encouraged to include additional functionality beyond the core functions as described 
+                in the must and should categories above.
+            </p>
+        </section>
+        <!-- App Features Ends Here -->
+
+    </section>
+    
+
+
+    
+</body>
+</html>

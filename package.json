@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/destinybravos/e-voting-uk.git"
+    "url": "git+https://github.com/AkanSedeke/voters-registration.git"
   },
   "keywords": [
     "voting",
@@ -18,12 +18,12 @@
     "modern",
     "election"
   ],
-  "author": "",
+  "author": "AkanSedekenpm",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/destinybravos/e-voting-uk/issues"
+    "url": "https://github.com/AkanSedeke/voters-registration/issues"
   },
-  "homepage": "https://github.com/destinybravos/e-voting-uk#readme",
+  "homepage": "https://github.com/AkanSedeke/voters-registration#readme",
   "devDependencies": {
     "tailwindcss": "^3.4.4",
     "webpack": "^5.91.0",
