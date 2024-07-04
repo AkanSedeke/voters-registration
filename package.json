@@ -1,5 +1,5 @@
 {
-  "name": "e-voting-uk",
+  "name": "voting-portal",
   "version": "1.0.0",
   "description": "An E-Voting Project ",
   "main": "src/index.js",

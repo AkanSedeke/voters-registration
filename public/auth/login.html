@@ -4,18 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
+    <link rel="shortcut icon" href="../assets/vote_icon.png" type="image/png">
     <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../fa_icons/css/all.css">
+    <script src="../js/app.js"></script>
 </head>
 <body>
-    <div className='flex justify-between'>
-        <aside className='bg-secondary min-h-dvh flex-grow w-1/2 hidden md:block'>
-            <h1>Hello</h1>
+    <div class='flex justify-between'>
+        <aside class='bg-secondary min-h-dvh flex-grow w-1/2 hidden md:flex justify-center items-center'>
+            <div class="mx-auto max-w-[14rem] overflow-hidden bg-slate-500 rounded-2xl">
+                <img src="../assets/images/man_vote.jpg" alt="" class="object-cover">
+            </div>
         </aside>
-        <aside className='px-4 min-h-dvh flex-grow flex-shrink-0 w-1/2 flex justify-center items-center' >
-            <div className='w-full max-w-sm'>
-            <Outlet />
+        <aside class='px-4 min-h-dvh flex-grow flex-shrink-0 w-1/2 flex justify-center items-center' >
+            <div class='w-full max-w-sm'>
+                <section>
+                    <a href="../../index.html">
+                        <img src="../assets/vote_icon.png" alt="" class="h-16 mx-auto">
+                    </a>
+                    <h1 class="text-2xl md:text-3xl font-bold mb-3 text-center">
+                        <i class="fa fa-user-lock"></i> Login
+                    </h1>
+                    <p class="mb-4 text-center">
+                        Welcome back. Please enter your details.
+                    </p>
+                    
+                    <div class="p-4">
+                        <form id="login_form">
+                            <div class="mb-4">
+                                <div class="flex items-center max-w-full bg-slate-50 rounded-md border">
+                                    <input type="email" name="email" required placeholder="Email Address" class="flex-grow bg-transparent py-2 px-3 focus:outline-none focus:border-none focus:ring-0 active:border-none active:ring-0"/>
+                                    <button type="button" class='px-3 text-slate-500 font-semibold'>
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex items-center max-w-full bg-slate-50 rounded-md border">
+                                    <input type="password" name="password" required placeholder="Enter Password" class="flex-grow bg-transparent py-2 px-3 focus:outline-none focus:border-none focus:ring-0 active:border-none active:ring-0"/>
+                                    <button type="button" class='px-3 text-slate-500 font-semibold'>
+                                        <i class="fas fa-key"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <button class="btn-primary w-full justify-center gap-1 rounded-md h-9 text-white">
+                                    <i class="fa fa-sign-in-alt"></i> Login
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="mt-5">
+                            If you do not have account. Kindly apply <a href="register.html" class="text-blue-500 underline">Here</a>
+                        </div>
+                    </div>
+                </section>
             </div>
         </aside>
     </div>
+
+
+    <script src="../js/store/AuthServices.js"></script>
+    <script>
+        document.getElementById('login_form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            let data = new FormData(e.target);
+            axios.post(`../../api/auth/signin.php`, data)
+            .then((res) => {
+                if (res.data.success) {
+                    saveToken(res.data.api_token);
+                    storeUser(res.data.user);
+                    location.href = '../app/';
+                } else {
+                    alert(res.data.message);
+                }
+            })
+            .catch((error) => {
+                alert(error.response.data.message);
+            })
+        })
+    </script>
 </body>
 </html>
