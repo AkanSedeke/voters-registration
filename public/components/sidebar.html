@@ -1,0 +1,58 @@
+<section class="flex flex-col h-full">
+    <aside class="px-4 py-3 flex items-center gap-3 border-b border-primary">
+        <img src="../assets/vote_icon.png" alt="" class="h-7">
+        <span class="text-xl">Voting Portal</span>
+    </aside>
+
+    <!--  -->
+    <aside class="flex-grow px-4 py-3">
+        <ul id="app_menu">
+        </ul>
+    </aside>
+
+    <!-- Bottom (Logout Button) -->
+    <aside class="px-4 py-3">
+        <ul>
+            <li class="">
+                <button id="btn_logout" class="flex items-center gap-1 w-full justify-center border border-white hover:bg-primary py-1 px-3 rounded-md">
+                    <i class="fa fa-sign-out-alt"></i> Logout
+                </button>
+            </li>
+        </ul>
+    </aside>
+</section>
+
+<script>
+
+    let appMenu = document.getElementById('app_menu');
+
+    // Display menu according to user's role
+    if (getUser().role == 'admin') {
+        appMenu.innerHTML = `<li class="">
+                                <a id="mnu_dashboard" href="index.php" class="flex items-center gap-3 w-full justify-start hover:border  hover:border-white py-1 px-3 rounded-md">
+                                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                                </a>
+                            </li>`;
+    }
+    
+
+
+    // listen to click event of the logout button and perform a funtion to logout
+    document.getElementById('btn_logout').addEventListener('click', () => {
+        axios.get(`../../api/auth/signout.php`, { headers : {
+            'Authorization' : 'Bearer ' + getToken('access_token'),
+            'Accept' : 'application/json'
+        }})
+        .then((res) => {
+            if (res.data.success) {
+                deleteToken();
+                window.location.href = '../../index.html';
+            } else {
+                alert(res.data.message);
+            }
+        })
+        .catch((error) => {
+            alert(error.response.data.message);
+        })
+    });
+</script>

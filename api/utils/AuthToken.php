@@ -1,7 +1,11 @@
 <?php
 
     // Define a cryptographically secure secret key (store securely outside code)
-    define('SECRET_KEY', 'your_very_strong_and_long_secret_key');
+    define('SECRET_KEY', 'voting_portal');
+    
+    include_once 'connect.php'; // Include the connection object
+
+    define('CONNECT', $conn);
 
     // Function to generate a random string for token payload
     function generateRandomString($length = 32) {
@@ -14,95 +18,73 @@
     }
 
     // Function to generate a JWT (JSON Web Token)
-    function generateToken($userId, $expiration = 3600, $data = []) { // Default expiration: 1 hour
-
-        $header = [
-            'alg' => 'HS256', // Use HMAC SHA-256 for signing
-            'typ' => 'JWT'
-        ];
-
-        $payload = [
-            'iss' => 'your_api_domain',  // Issuer (your API domain)
-            'aud' => $userId,          // Audience (user ID for whom the token is issued)
-            'exp' => time() + $expiration, // Expiration time
-            'iat' => time(),             // Issued at time
-            'data' => $data                // Optional custom data for the user
-        ];
-
-        // Encode header and payload using base64url encoding
-        $encodedHeader = rtrim(strtr(base64_encode(json_encode($header)), '+/', '-_'), '=');
-        $encodedPayload = rtrim(strtr(base64_encode(json_encode($payload)), '+/', '-_'), '=');
-
-        // Create signature string
-        $signature = hash_hmac('sha256', "$encodedHeader.$encodedPayload", SECRET_KEY, true);
-        $encodedSignature = rtrim(strtr(base64_encode($signature), '+/', '-_'), '=');
-
-        // Build the JWT string
-        $token = "$encodedHeader.$encodedPayload.$encodedSignature";
-
-        return $token;
+    function generateToken($userId, $expiration = 3600) { // Default expiration: 1 hour
+        $randomString = generateRandomString();
+        $encryptedUserid = base64_encode($userId);
+        return $randomString . "." . $encryptedUserid;
     }
 
-    // Example usage:
-    // $userId = 123;  // Replace with actual user ID
-    // $token = generateToken($userId);
+    function validateToken($token, $email){
 
-    // echo $token;
+        $valid = false; // Set the initial value of valid to false
 
-    // Function to verify a JWT (JSON Web Token)
+        $sql = "SELECT * FROM access_tokens WHERE email = '$email' AND token='$token'";
+        $result = CONNECT->query($sql);
+
+        if ($result->num_rows > 0) {
+            $valid = true;
+        }
+
+        return $valid;
+    }
+
+    function fetchUserData($email){
+        $sql = "SELECT id, firstname, lastname, email, photo, role FROM users WHERE email = '$email'";
+        $result = CONNECT->query($sql);
+        return $result->fetch_assoc();
+    }
+
     function verifyToken($token) {
 
         $parts = explode('.', $token);
+        $payload = $parts;
+        $userEmail = base64_decode($parts[1]);
 
-        if (count($parts) !== 3) {
-            throw new Exception('Invalid JWT format');
+        if (validateToken($token, $userEmail) == false) {
+            throw new Exception("Invalid authorization token", 401);
         }
 
-        // Decode header, payload, and signature
-        $header = json_decode(base64_decode(strtr($parts[0], '-_', '+/')), true);
-        $payload = json_decode(base64_decode(strtr($parts[1], '-_', '+/')), true);
-        $signature = base64_decode(strtr($parts[2], '-_', '+/'));
+        // Create an authorization object
+        $auth = new stdClass();
 
-        // Check signature validity using HMAC SHA-256
-        $expectedSignature = hash_hmac('sha256', "$parts[0].$parts[1]", SECRET_KEY, true);
-        if ($signature !== $expectedSignature) {
-            throw new Exception('Invalid token signature');
-        }
+        // save the access toke on the object 
+        $auth->token = $token;
 
-        // Validate expiration time
-        if (isset($payload['exp']) && time() > $payload['exp']) {
-            throw new Exception('Token expired');
-        }
+        // save the user data into the auth object too
+        $auth->user = fetchUserData($userEmail);
 
-        // Additional checks (optional)
-        // - Validate issuer (iss)
-        // - Validate audience (aud)
-        // - Check if specific claims exist in data
-
-        return $payload; // Return decoded payload if valid
+        return $auth; // Return the authentication object
     }
 
-    // // Check for Authorization header
-    // if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
-    //     throw new Exception('Authorization header missing');
-    // }
+    function deleteToken($token) {
+        $deleted = false;
 
-    // // Extract token from Authorization header
-    // $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
-    // list($scheme, $token) = explode(' ', $authHeader, 2);  // Split by space
+        $parts = explode('.', $token);
+        $payload = $parts;
+        $userEmail = base64_decode($parts[1]);
 
-    // // Validate scheme (should be "Bearer")
-    // if (strtolower($scheme) !== 'bearer') {
-    //     throw new Exception('Invalid authorization scheme');
-    // }
+        if (validateToken($token, $userEmail) == false) {
+            throw new Exception("Invalid authorization token", 401);
+        }
 
-    // try {
-    //     $decodedPayload = verifyToken($token);
-    //     echo "Token is valid! User ID: " . $decodedPayload['aud']; // Example usage of data
-    // } catch (Exception $e) {
-    //     echo "Error: " . $e->getMessage();
-    //     http_response_code(401); // Set unauthorized status code
-    // }
+        $sql = "DELETE FROM access_tokens WHERE email = '$userEmail' AND token='$token'";
+        $result = CONNECT->query($sql);
+        if ($result) {
+            $deleted = true;
+        }
 
+        return $deleted;
+    }
 
+    
 ?>

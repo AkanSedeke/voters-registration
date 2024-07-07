@@ -22,17 +22,17 @@
                     'api_token' => getAccessToken($email, $conn)
                 ]);
             } else {
-                header("HTTP/1 500");
+                header("HTTP/1 402");
                 echo json_encode([
                     'success' => false,
-                    'message' => "An unexpected error occured."
+                    'message' => "Invalid email or password entered."
                 ]);
             }
         } else {
             header("HTTP/1 422");
             echo json_encode([
                 'success' => false,
-                'message' => "Invalid or missing email or password."
+                'message' => "Missing email or password parameters. Kindly ensure they were entered correctly"
             ]);
         }
     } catch (\Throwable $th) {
@@ -43,7 +43,6 @@
         ]);
     }
     
-
 
     function getAccessToken($email, $conn) {
         include_once "../utils/AuthToken.php";
@@ -66,7 +65,7 @@
     }
 
     function userEmailExists($email, $conn) {
-        $sql = "SELECT * FROM users WHERE email = '$email'";
+        $sql = "SELECT * FROM access_tokens WHERE email = '$email'";
         $result = $conn->query($sql);
         return $result->num_rows > 0;
     }

@@ -19,11 +19,23 @@
         
         try {
             if ($insert) {
+                $user = getUserData($email, $conn); // Fetch the stored user data
+
+                // If role is voter, store the record on the voter's database table as well
+                if ($role == 'voter') {
+                    $voter_id = time();
+                    $user_id = $user['id'];
+
+                    $insert_voter_sql = "INSERT INTO voters(vote_id,user_id) 
+                                            VALUES ('$voter_id','$user_id')";
+                    $insert = $conn->query($insert_voter_sql);
+                }
+
                 header("HTTP/1 200");
                 echo json_encode([
                     'success' => true,
                     'message' => 'User account created successfully',
-                    'user' => getUserData($email, $conn),
+                    'user' => $user,
                     'api_token' => getAccessToken($email, $conn)
                 ]);
             } else {
@@ -75,13 +87,14 @@
         }
     }
 
+
     function getAccessToken($email, $conn) {
         include_once "../utils/AuthToken.php";
         $expiry = time() + 60*60*24;
         $token = generateToken($email, $expiry);
 
         // Save Token
-        if (userEmailExists($email, $conn)) {
+        if (userAccessEmailExists($email, $conn)) {
             $sql = "UPDATE access_tokens SET token ='$token', expires_at='$expiry' WHERE email = '$email'";
         } else {
             $sql = "INSERT INTO access_tokens(email, token, expires_at) VALUES('$email','$token','$expiry')";
@@ -93,6 +106,12 @@
         } else {
             return null;
         }
+    }
+
+    function userAccessEmailExists($email, $conn) {
+        $sql = "SELECT * FROM access_tokens WHERE email = '$email'";
+        $result = $conn->query($sql);
+        return $result->num_rows > 0;
     }
 
 

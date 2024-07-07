@@ -26,26 +26,16 @@ function deleteCookie(cname){
 }
  
 function saveToken(accessToken) {
-    // Update Axios Instance with access token
-    axiosIns = window.axios;
-    window.axios.interceptors.request.use(async config => {
-        if (config.headers) {
-            config.headers.Authorization = `Bearer ${accessToken}` 
-            localStorage.setItem('access_token', accessToken);
-        }
-        console.log(accessToken);
-        return config
-    });
-    // window.axios = axiosIns;
-    setCookie('access_token', btoa(accessToken), 2);
+    localStorage.setItem('access_token', btoa(accessToken));
 }
 
-function deleteToken(accessToken) {
-    // Update Axios Instance with access token
-    axiosIns = window.axios;
-    axiosIns.interceptors.request.clear()
-    window.axios = axiosIns;
-    deleteCookie('access_token');
+function deleteToken() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
+}
+
+function getToken(){
+    return atob(localStorage.getItem('access_token'));
 }
 
 function storeUser(user){

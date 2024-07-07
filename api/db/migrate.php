@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 include_once '../utils/connect.php';
 
 try {
-
+    
     // create users table structure if not exist
     $sqlUsers = "CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -13,7 +13,7 @@ try {
         lastname VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         password VARCHAR(255) NOT NULL,
-        photo VARCHAR(255),
+        photo VARCHAR(255)  DEFAULT('assets/images/users/default.png'),
         role VARCHAR(100),
         created_at DATETIME DEFAULT(CURRENT_TIMESTAMP),
         updated_at DATETIME DEFAULT(CURRENT_TIMESTAMP)
@@ -38,11 +38,9 @@ try {
         user_id INTEGER NOT NULL,
         phone VARCHAR(255),
         address VARCHAR(255),
-        photo VARCHAR(255),
+        photo VARCHAR(255) DEFAULT('assets/images/voters/default.png'),
         polling_unit_id INTEGER,
-        ward_id INTEGER,
-        lga_id INTEGER,
-        state_id INTEGER,
+        province_id INTEGER,
         country_id INTEGER,
         created_at DATETIME DEFAULT(CURRENT_TIMESTAMP),
         updated_at DATETIME DEFAULT(CURRENT_TIMESTAMP)

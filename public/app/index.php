@@ -8,23 +8,36 @@
     <link rel="stylesheet" href="../css/app.css">
     <link rel="stylesheet" href="../fa_icons/css/all.css">
     <script src="../js/app.js"></script>
+    <script src="../js/store/AuthServices.js"></script>
 </head>
 <body>
-    
+    <div class="min-h-dvh bg-slate-100">
+        <section>
+            <!-- Side Nav -->
+            <aside class="-left-56 md:left-0 w-56 bg-secondary text-white fixed h-dvh shadow-sm">
+                <?php include_once '../components/sidebar.html'; ?>
+            </aside>
+
+            
+            <section class="md:ml-56">
+                <!-- Header section -->
+                <header class="min-h-10 px-4 py-3 bg-white shadow-sm sticky top-0">
+                    <?php include_once '../components/header.html'; ?>
+                </header>
+
+                <!-- Main Content -->
+                <main class="min-h-[1000px] px-4 py-3">
+                    sdsd
+                </main>
+            </section>
+        </section>
+    </div>
 
 
-    <script src="../js/store/AuthServices.js"></script>
+
     <script>
-        
-        axios.get(`../../api/auth/app.php`, { headers : {
-            'Authorization' : 'Bearer ' + btoa(getCookie('access_token'))
-        }})
-        .then((res) => {
-            console.log(res.data);
-        })
-        .catch((error) => {
-            alert(error.response.data.message);
-        })
+        document.getElementById('mnu_dashboard').classList.add('active');
+        document.getElementById('page_title').innerHTML = '<i class="fas fa-tachometer-alt"></i> Dashboard';
     </script>
 </body>
 </html>

@@ -1,0 +1,30 @@
+<section class="flex items-center justify-between gap-4">
+    <aside id="page_title" class="text-lg font-bold"></aside>
+
+    <aside>
+        <ul class="flex items-center gap-5">
+            <li class="inline-block">
+                <button class="flex">
+                    <i class="far fa-bell text-xl"></i>
+                </button>
+            </li>
+            <li class="inline-block">
+                <button class="flex items-center gap-2">
+                    <aside class="text-end leading-[0rem] hidden md:block">
+                        <div id="user_name" class="text-sm font-semibold capitalize"></div> <br>
+                        <div id="user_role" class="text-xs capitalize text-secondary -mt-1"></div>
+                    </aside>
+                    <aside class="h-8 w-8 rounded-full bg-red-500">
+                        <img id="user_image" src="" alt="" class="object-cover">
+                    </aside>
+                </button>
+            </li>
+        </ul>
+    </aside>
+</section>
+
+<script>
+    document.getElementById('user_name').innerHTML = getUser().firstname + ' ' + getUser().lastname;
+    document.getElementById('user_role').innerHTML = getUser().role;
+    document.getElementById('user_image').setAttribute('src', "../" + getUser().photo);
+</script>
