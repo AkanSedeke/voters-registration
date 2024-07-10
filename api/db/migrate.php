@@ -48,6 +48,25 @@ try {
 
     $conn->query($sqlVoters);
 
+    // create province table structure if not exist
+    $sqlProvinces = "CREATE TABLE IF NOT EXISTS provinces (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        province VARCHAR(255),
+        country_id VARCHAR(255) DEFAULT(1)
+    )";
+
+    $conn->query($sqlProvinces);
+
+    // create polling unit table structure if not exist
+    $sqlPollingUnit = "CREATE TABLE IF NOT EXISTS polling_units (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        province_id INT NOT NULL,
+        punit_code VARCHAR(255),
+        punit_address VARCHAR(255)
+    )";
+
+    $conn->query($sqlPollingUnit);
+
     // Return success
     header("HTTP/1 200");
     echo json_encode([

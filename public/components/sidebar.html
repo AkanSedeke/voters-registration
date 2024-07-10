@@ -6,7 +6,7 @@
 
     <!--  -->
     <aside class="flex-grow px-4 py-3">
-        <ul id="app_menu">
+        <ul id="app_menu" class="space-y-2">
         </ul>
     </aside>
 
@@ -31,6 +31,21 @@
         appMenu.innerHTML = `<li class="">
                                 <a id="mnu_dashboard" href="index.php" class="flex items-center gap-3 w-full justify-start hover:border  hover:border-white py-1 px-3 rounded-md">
                                     <i class="fas fa-tachometer-alt"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="">
+                                <a id="mnu_polling_units" href="pollunit.php" class="flex items-center gap-3 w-full justify-start hover:border  hover:border-white py-1 px-3 rounded-md">
+                                    <i class="fas fa-poll text-xl"></i> Polling Units
+                                </a>
+                            </li>
+                            <li class="">
+                                <a id="mnu_officers" href="index.php" class="flex items-center gap-3 w-full justify-start hover:border  hover:border-white py-1 px-3 rounded-md">
+                                    <i class="fas fa-user-tag"></i> Manage Officers
+                                </a>
+                            </li>
+                            <li class="">
+                                <a id="mnu_voters" href="index.php" class="flex items-center gap-3 w-full justify-start hover:border  hover:border-white py-1 px-3 rounded-md">
+                                    <i class="fas fa-users"></i> Manage Voters
                                 </a>
                             </li>`;
     }
