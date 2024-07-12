@@ -121,7 +121,7 @@
 
     <script>
         document.getElementById('mnu_polling_units').classList.add('active');
-        document.getElementById('page_title').innerHTML = '<i class="fas fa-tachometer-alt"></i> Dashboard';
+        document.getElementById('page_title').innerHTML = '<i class="fas fa-poll"></i> Polling Units';
 
         // Make a HTTP Get request to fetch all polling unit records
         axios.get(`../../api/pollunit/fetch_units.php`)

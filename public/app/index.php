@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="../fa_icons/css/all.css">
     <script src="../js/app.js"></script>
     <script src="../js/store/AuthServices.js"></script>
+    <script>
+        if (getUser().role == 'voter') {
+            location.href = 'profile.php';
+        }
+    </script>
 </head>
 <body>
     <div class="min-h-dvh bg-slate-100">

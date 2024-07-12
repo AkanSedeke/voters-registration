@@ -21,12 +21,11 @@
         // if province_id value is present
         if (isset($_GET['province_id']) && ($_GET['province_id'] != "")) {
             $province_id = $_GET['province_id']; // Get the value from the request into a serchValue varable
-            if($_GET['search'] != ""){
+            if(isset($_GET['search'])){
                 $sql .= "AND province_id = '$province_id' "; // Add AND Logical operator if the search value criteria above is present
             }else{
                 $sql .= "WHERE province_id = '$province_id' "; // Otherwise, use only this criteria with a WHERE Clause
             }
-            
         }
 
         // Order the query results

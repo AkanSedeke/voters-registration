@@ -12,9 +12,13 @@ try {
         firstname VARCHAR(255) NOT NULL,
         lastname VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
+        phone VARCHAR(255),
         password VARCHAR(255) NOT NULL,
         photo VARCHAR(255)  DEFAULT('assets/images/users/default.png'),
         role VARCHAR(100),
+        gender VARCHAR(100),
+        bio VARCHAR(6000),
+        dob DATETIME,
         created_at DATETIME DEFAULT(CURRENT_TIMESTAMP),
         updated_at DATETIME DEFAULT(CURRENT_TIMESTAMP)
     )";

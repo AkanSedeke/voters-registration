@@ -47,6 +47,19 @@
                                 <a id="mnu_voters" href="index.php" class="flex items-center gap-3 w-full justify-start hover:border  hover:border-white py-1 px-3 rounded-md">
                                     <i class="fas fa-users"></i> Manage Voters
                                 </a>
+                            </li>
+                            <li class="">
+                                <a id="mnu_profile" href="profile.php" class="flex items-center gap-3 w-full justify-start hover:border  hover:border-white py-1 px-3 rounded-md">
+                                    <i class="far fa-user"></i> Profile
+                                </a>
+                            </li>`;
+    }
+
+    if (getUser().role == 'voter') {
+        appMenu.innerHTML = `<li class="">
+                                <a id="mnu_profile" href="profile.php" class="flex items-center gap-3 w-full justify-start hover:border  hover:border-white py-1 px-3 rounded-md">
+                                    <i class="far fa-user"></i> Profile
+                                </a>
                             </li>`;
     }
     

@@ -10,7 +10,7 @@
             $email = $_POST['email'];
             $password = md5($_POST['password']);
     
-            $sql = "SELECT id, firstname, lastname, email, photo, role FROM users WHERE email = '$email' AND password='$password'";
+            $sql = "SELECT id, firstname, lastname, email, photo, role, phone, dob, bio, gender FROM users WHERE email = '$email' AND password='$password'";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 $user = $result->fetch_assoc();

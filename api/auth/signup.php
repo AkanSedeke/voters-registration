@@ -78,7 +78,7 @@
     }
 
     function getUserData($email, $conn) {
-        $sql = "SELECT id, firstname, lastname, email, photo, role FROM users WHERE email = '$email'";
+        $sql = "SELECT id, firstname, lastname, email, photo, role, phone, dob, bio, gender FROM users WHERE email = '$email'";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             return $result->fetch_assoc();
