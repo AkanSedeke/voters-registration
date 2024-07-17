@@ -39,35 +39,35 @@
                             <!-- Cards section -->
                             <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-7">
                                 <!-- Card 1 -->
-                                <div class="bg-white min-h-10 rounded-lg shadow-lg px-3 py-2 relative">
+                                <a href="voters.php" class="bg-white min-h-10 rounded-lg shadow-lg px-3 py-2 relative">
                                     <span class="text-sm">No. of Voters</span>
-                                    <h1 class="text-5xl font-bold">
-                                        23
+                                    <h1 id="voter-count" class="text-5xl font-bold">
+                                        0
                                     </h1>
                                     <button class="absolute right-4 bottom-2 text-2xl text-primary">
                                         <i class="fa fa-users"></i>
                                     </button>
-                                </div>
+                                </a>
                                 <!-- Card 2 -->
-                                <div class="bg-white min-h-10 rounded-lg shadow-lg px-3 py-2 relative">
+                                <a href="officers.php"  class="bg-white min-h-10 rounded-lg shadow-lg px-3 py-2 relative">
                                     <span class="text-sm">No. of Election Officers</span>
-                                    <h1 class="text-5xl font-bold">
-                                        2
+                                    <h1 id="officer-count" class="text-5xl font-bold">
+                                        0
                                     </h1>
                                     <button class="absolute right-4 bottom-2 text-2xl text-primary">
                                         <i class="fa fa-user-tag"></i>
                                     </button>
-                                </div>
+                                </a>
                                 <!-- Card 3 -->
-                                <div class="bg-white min-h-10 rounded-lg shadow-lg px-3 py-2 relative">
+                                <a href="pollunit.php"  class="bg-white min-h-10 rounded-lg shadow-lg px-3 py-2 relative">
                                     <span class="text-sm">No. of Province</span>
-                                    <h1 class="text-5xl font-bold">
-                                        12
+                                    <h1 id="province-count" class="text-5xl font-bold">
+                                        0
                                     </h1>
                                     <button class="absolute right-4 bottom-2 text-2xl text-primary">
                                         <i class="fa fa-home"></i>
                                     </button>
-                                </div>
+                                </a>
                             </section>
 
                             <!-- Voters Table Section -->
@@ -77,38 +77,20 @@
                                         Voter's Records
                                     </h1>
 
-                                    <a href="" class="text-sm text-primary hover:underline">Vew All Voters</a>
+                                    <a href="voters.php" class="text-sm text-primary hover:underline">Vew All Voters</a>
                                 </div>
 
                                 <table class="w-full table-auto border-collapse border border-slate-400">
                                     <thead class="text-left">
                                         <tr>
                                             <th class="border border-slate-300 px-3 py-1 w-10">SN</th>
-                                            <th class="border border-slate-300 px-3 py-1 w-3/5">Name</th>
-                                            <th class="border border-slate-300 px-3 py-1" colspan="2">Voter ID</th>
+                                            <th class="border border-slate-300 px-3 py-1 w-3/5">Fullname</th>
+                                            <th class="border border-slate-300 px-3 py-1">Voter ID</th>
+                                            <th class="border border-slate-300 px-3 py-1" colspan="2">Polling Unit</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="odd:bg-slate-100">
-                                        <tr>
-                                            <td class="border border-slate-300 px-3 py-1">1</td>
-                                            <td class="border border-slate-300 px-3 py-1">James Onanefe Ibori</td>
-                                            <td class="border border-slate-300 px-3 py-1">53434532</td>
-                                            <td class="border border-slate-300 px-3 py-1">
-                                                <button class="px-2">
-                                                    <i class="far fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-slate-300 px-3 py-1">1</td>
-                                            <td class="border border-slate-300 px-3 py-1">James Onanefe Ibori</td>
-                                            <td class="border border-slate-300 px-3 py-1">53434532</td>
-                                            <td class="border border-slate-300 px-3 py-1">
-                                                <button class="px-2">
-                                                    <i class="far fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                    <tbody id="voter-records" class="odd:bg-slate-100">
+                                        
                                     </tbody>
                                 </table>
                             </section>
@@ -119,10 +101,10 @@
                             <!-- Polling unit card -->
                             <div class="bg-white min-h-10 rounded-lg shadow-lg px-3 py-2 relative mb-7">
                                 <h1 class="text-5xl font-bold">
-                                    <span>2</span>
+                                    <span id="poll-unit-count">0</span>
                                     <span class="text-base">Polling Units</span> <br>
                                 </h1>
-                                <a href="" class="text-sm text-primary hover:underline">View & Manage Polling units</a>
+                                <a href="pollunit.php" class="text-sm text-primary hover:underline">View & Manage Polling units</a>
                             </div>
 
                             <!-- List of Officers -->
@@ -132,18 +114,9 @@
                                         Election Officers
                                     </h1>
 
-                                    <a href="" class="text-sm text-primary hover:underline">Vew All Officers</a>
+                                    <a href="officers.php" class="text-sm text-primary hover:underline">Vew All Officers</a>
                                 </div>
-                                <ul>
-                                    <li>
-                                        Officer 1
-                                    </li>
-                                    <li>
-                                        Officer 2
-                                    </li>
-                                    <li>
-                                        Officer 3
-                                    </li>
+                                <ul id="officers-list">
                                 </ul>
                             </section>
                         </aside>
@@ -158,6 +131,62 @@
     <script>
         document.getElementById('mnu_dashboard').classList.add('active');
         document.getElementById('page_title').innerHTML = '<i class="fas fa-tachometer-alt"></i> Dashboard';
+
+
+        axios.get(`../../api/stats/dashboard_stats.php`)
+        .then((res) => {
+            let stats = res.data.stats;
+
+            // Displaying the statistics on their various elements
+            document.getElementById('voter-count').innerText = stats.no_voter;
+            document.getElementById('officer-count').innerText = stats.no_officer;
+            document.getElementById('province-count').innerText = stats.no_province;
+            document.getElementById('poll-unit-count').innerText = stats.no_poll_unit;
+
+            // Check the lenght of voter records
+            let votersHTML = '';
+            if (stats.voter_list.length > 0) {
+                stats.voter_list.forEach((voter, i) => {
+                    votersHTML += `<tr>
+                                        <td class="border border-slate-300 px-3 py-1">${i + 1}</td>
+                                        <td class="border border-slate-300 px-3 py-1">${voter.firstname} ${voter.lastname}</td>
+                                        <td class="border border-slate-300 px-3 py-1">${voter.vote_id}</td>
+                                        <td class="border border-slate-300 px-3 py-1">${(voter.polling_unit) ? voter.polling_unit.punit_code : ' - '}</td>
+                                        <td class="border border-slate-300 px-3 py-1">
+                                            <button class="px-2" onclick="navigateVoterProfile(${voter.user_id})">
+                                                <i class="far fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>`;
+                });
+            } else {
+                votersHTML += `<tr>
+                                <td class="border border-slate-300 px-3 py-1" colspan="4"> No Voter record found. </td>
+                            </tr>`;
+            }
+
+            document.getElementById('voter-records').innerHTML = votersHTML;
+
+            // Check the lenght of officers records
+            let officersHTML = '';
+            if (stats.officer_list.length > 0) {
+                stats.officer_list.forEach((officer, i) => {
+                    officersHTML += `<li>
+                                        ${officer.firstname} ${officer.lastname}
+                                    </li>`;
+                });
+            } else {
+                officersHTML += `<li>
+                                    No Election officer Found
+                                </li>`;
+            }
+
+            document.getElementById('officers-list').innerHTML = officersHTML;
+        })
+
+        function navigateVoterProfile(voter_id){
+            location.href = 'voter_profile.php?voter_id=' + voter_id;
+        }
     </script>
 </body>
 </html>

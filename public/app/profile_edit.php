@@ -54,7 +54,7 @@
                                     </div>
                                     <div>
                                         <strong>Email: </strong> <br>
-                                        <input type="text" name="email" required placeholder="Enter Email Address" class="flex-grow w-full bg-transparent py-1 px-3 border outline-none ring-0" />
+                                        <input type="email" name="email" required placeholder="Enter Email Address" class="flex-grow w-full bg-transparent py-1 px-3 border outline-none ring-0" />
                                     </div>
                                     <div>
                                         <strong>Phone: </strong> <br>

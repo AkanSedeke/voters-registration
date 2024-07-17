@@ -29,9 +29,13 @@
                 <main class="min-h-[1000px] px-4 py-3">
                     <div class="bg-white rounded-md shadow-md overflow-hidden mb-5">
                         <section class="h-32 bg-slate-400">
-                            <a href="profile_edit.php" class="bg-secondary inline-block py-1 px-3 border border-white text-white mt-4 ml-4 text-xs rounded-lg shadow-md">
-                                <i class="fas fa-edit"></i>
-                                Edit Profile
+                            <a href="voters.php" class="bg-secondary inline-block py-1 px-3 border border-white text-white mt-4 ml-4 text-xs rounded-lg shadow-md">
+                                <i class="fas fa-arrow-left"></i>
+                                Back
+                            </a>
+                            <a href="profile_edit.php" class="bg-primary inline-block py-1 px-3 border border-white text-white mt-4 ml-4 text-xs rounded-lg shadow-md">
+                                <i class="fas fa-trash-alt"></i>
+                                Delete Voter
                             </a>
                         </section>
                         <section class="h-32 w-32 rounded-full bg-primary mx-auto -mt-24 flex items-center overflow-hidden">
@@ -78,7 +82,7 @@
                         </section>
 
 
-                        <section id="voter_uicard" class="bg-white hidden rounded-md shadow-md overflow-hidden mb-5 px-4 py-2">
+                        <section id="voter_uicard" class="bg-white rounded-md shadow-md overflow-hidden mb-5 px-4 py-2">
                             <h1 class="text-xl font-bold border-b border-slate-500 py-2 mb-3">
                                 Voter's Info/Location
                             </h1>
@@ -109,25 +113,20 @@
 
 
     <script>
-        document.getElementById('mnu_profile').classList.add('active');
-        document.getElementById('page_title').innerHTML = '<i class="fas fa-user"></i> User Profile';
+        document.getElementById('mnu_voters').classList.add('active');
+        document.getElementById('page_title').innerHTML = '<i class="fas fa-user"></i> Voter\'s Profile';
 
-        // Add User Data to Page Elements
-        document.getElementById('user_profile_image').setAttribute('src', "../" + getUser().photo);
-        document.getElementById('usernames').innerText =  getUser().firstname + " " + getUser().lastname;
-        document.getElementById('user_profile_role').innerText = " - " + getUser().role;
-        document.getElementById('user_email').innerText =  getUser().email;
-        document.getElementById('span_firstname').innerText =  getUser().firstname;
-        document.getElementById('span_lastname').innerText =  getUser().lastname;
-        document.getElementById('span_email').innerText =  getUser().email;
-        document.getElementById('span_phone').innerText =  getUser().phone;
-        document.getElementById('span_gender').innerText =  getUser().gender;
-        document.getElementById('span_dob').innerText =  moment(getUser().dob).format('DD/MM/YYYY') + ` - (${moment(getUser().dob).fromNow()})`;
-        document.getElementById('span_bio').innerText =  getUser().bio;
+        // Get user id from the page url
+        let url = new URL(location.href);
+        let voter_id = url.searchParams.get('voter_id');
+
+        if (voter_id == null || voter_id == undefined || voter_id == '') {
+            location.href = 'voters.php';
+        }
 
         // Function to Fetch Voters Information
         function fetchVotingInformation(){
-            axios.get(`../../api/profile/vote_info.php`, {
+            axios.get(`../../api/voter/profile_info.php?voter_id=${voter_id}`, {
                 headers : {
                     'Authorization' : 'Bearer ' + getToken()
                 }
@@ -138,8 +137,20 @@
                     document.getElementById('span_vote_id').innerText =  voter.vote_id;
                     document.getElementById('span_vote_phone').innerText =  voter.phone;
                     document.getElementById('span_vote_address').innerText =  voter.address;
-                    document.getElementById('span_province').innerText =  voter.province.name;
-                    document.getElementById('span_poll_unit').innerHTML =  voter.polling_unit.punit_code + ` - <small>(${voter.polling_unit.punit_address})</small>`;
+                    document.getElementById('span_province').innerText =  (voter.province) ? voter.province?.name : ' - ';
+                    document.getElementById('span_poll_unit').innerHTML =  (voter.polling_unit) ? voter.polling_unit.punit_code + ` - <small>(${voter.polling_unit?.punit_address})</small>` : ' - ';
+                    // Add User Data to Page Elements
+                    document.getElementById('user_profile_image').setAttribute('src', "../" + voter.photo);
+                    document.getElementById('usernames').innerText =  voter.firstname + " " + voter.lastname;
+                    document.getElementById('user_profile_role').innerText = " - " + voter.role;
+                    document.getElementById('user_email').innerText =  voter.email;
+                    document.getElementById('span_firstname').innerText =  voter.firstname;
+                    document.getElementById('span_lastname').innerText =  voter.lastname;
+                    document.getElementById('span_email').innerText =  voter.email;
+                    document.getElementById('span_phone').innerText =  voter.phone;
+                    document.getElementById('span_gender').innerText =  voter.gender;
+                    document.getElementById('span_dob').innerText =  moment(voter.dob).format('YYYY/DD/MM') + ` - (${moment(voter.dob).fromNow()})`;
+                    document.getElementById('span_bio').innerText =  voter.bio;
                 } else {
                     alert(res.data.message);
                 }
@@ -148,12 +159,7 @@
                 alert(error.response.data.message);
             })
         } 
-
-
-        if (getUser().role == 'voter') {
-            fetchVotingInformation();
-            document.getElementById('voter_uicard').classList.remove('hidden');
-        }
+        fetchVotingInformation();
     </script>
 </body>
 </html>

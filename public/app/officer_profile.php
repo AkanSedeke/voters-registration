@@ -29,10 +29,14 @@
                 <main class="min-h-[1000px] px-4 py-3">
                     <div class="bg-white rounded-md shadow-md overflow-hidden mb-5">
                         <section class="h-32 bg-slate-400">
-                            <a href="profile_edit.php" class="bg-secondary inline-block py-1 px-3 border border-white text-white mt-4 ml-4 text-xs rounded-lg shadow-md">
-                                <i class="fas fa-edit"></i>
-                                Edit Profile
+                            <a href="voters.php" class="bg-secondary inline-block py-1 px-3 border border-white text-white mt-4 ml-4 text-xs rounded-lg shadow-md">
+                                <i class="fas fa-arrow-left"></i>
+                                Back
                             </a>
+                            <button onclick="deleteUser()" class="bg-primary inline-block py-1 px-3 border border-white text-white mt-4 ml-4 text-xs rounded-lg shadow-md">
+                                <i class="fas fa-trash-alt"></i>
+                                Delete Officer <span class="hidden" id="user_id_span"></span>
+                            </button>
                         </section>
                         <section class="h-32 w-32 rounded-full bg-primary mx-auto -mt-24 flex items-center overflow-hidden">
                             <img id="user_profile_image" src="" alt="" class="object-cover min-h-full min-w-full">
@@ -76,30 +80,6 @@
                                 </div>
                             </aside>
                         </section>
-
-
-                        <section id="voter_uicard" class="bg-white hidden rounded-md shadow-md overflow-hidden mb-5 px-4 py-2">
-                            <h1 class="text-xl font-bold border-b border-slate-500 py-2 mb-3">
-                                Voter's Info/Location
-                            </h1>
-                            <aside class="space-y-3">
-                                <div>
-                                    <strong>Voting ID: </strong> <span id="span_vote_id"></span>
-                                </div>
-                                <div>
-                                    <strong>Contact Phone: </strong> <span id="span_vote_phone"></span>
-                                </div>
-                                <div>
-                                    <strong>Resident Address: </strong> <span id="span_vote_address"></span>
-                                </div>
-                                <div>
-                                    <strong>Polling_Unit: </strong> <span id="span_poll_unit"></span>
-                                </div>
-                                <div>
-                                    <strong>Province: </strong> <span id="span_province"></span>
-                                </div>
-                            </aside>
-                        </section>
                     </div>
                 </main>
             </section>
@@ -109,37 +89,40 @@
 
 
     <script>
-        document.getElementById('mnu_profile').classList.add('active');
-        document.getElementById('page_title').innerHTML = '<i class="fas fa-user"></i> User Profile';
+        document.getElementById('mnu_voters').classList.add('active');
+        document.getElementById('page_title').innerHTML = '<i class="fas fa-user"></i> Voter\'s Profile';
 
-        // Add User Data to Page Elements
-        document.getElementById('user_profile_image').setAttribute('src', "../" + getUser().photo);
-        document.getElementById('usernames').innerText =  getUser().firstname + " " + getUser().lastname;
-        document.getElementById('user_profile_role').innerText = " - " + getUser().role;
-        document.getElementById('user_email').innerText =  getUser().email;
-        document.getElementById('span_firstname').innerText =  getUser().firstname;
-        document.getElementById('span_lastname').innerText =  getUser().lastname;
-        document.getElementById('span_email').innerText =  getUser().email;
-        document.getElementById('span_phone').innerText =  getUser().phone;
-        document.getElementById('span_gender').innerText =  getUser().gender;
-        document.getElementById('span_dob').innerText =  moment(getUser().dob).format('DD/MM/YYYY') + ` - (${moment(getUser().dob).fromNow()})`;
-        document.getElementById('span_bio').innerText =  getUser().bio;
+        // Get user id from the page url
+        let url = new URL(location.href);
+        let officer_id = url.searchParams.get('officer_id');
+
+        if (officer_id == null || officer_id == undefined || officer_id == '') {
+            location.href = 'voters.php';
+        }
 
         // Function to Fetch Voters Information
-        function fetchVotingInformation(){
-            axios.get(`../../api/profile/vote_info.php`, {
+        function fetchOfficerInformation(){
+            axios.get(`../../api/voter/officer_profile_info.php?officer_id=${officer_id}`, {
                 headers : {
                     'Authorization' : 'Bearer ' + getToken()
                 }
             })
             .then((res) => {
                 if (res.data.success) {
-                    let voter = res.data.voter;
-                    document.getElementById('span_vote_id').innerText =  voter.vote_id;
-                    document.getElementById('span_vote_phone').innerText =  voter.phone;
-                    document.getElementById('span_vote_address').innerText =  voter.address;
-                    document.getElementById('span_province').innerText =  voter.province.name;
-                    document.getElementById('span_poll_unit').innerHTML =  voter.polling_unit.punit_code + ` - <small>(${voter.polling_unit.punit_address})</small>`;
+                    let officer = res.data.officer;
+                    // Add User Data to Page Elements
+                    document.getElementById('user_profile_image').setAttribute('src', "../" + officer.photo);
+                    document.getElementById('usernames').innerText =  officer.firstname + " " + officer.lastname;
+                    document.getElementById('user_profile_role').innerText = " - " + officer.role;
+                    document.getElementById('user_email').innerText =  officer.email;
+                    document.getElementById('span_firstname').innerText =  officer.firstname;
+                    document.getElementById('span_lastname').innerText =  officer.lastname;
+                    document.getElementById('span_email').innerText =  officer.email;
+                    document.getElementById('span_phone').innerText =  officer.phone;
+                    document.getElementById('span_gender').innerText =  officer.gender;
+                    document.getElementById('span_dob').innerText =  moment(officer.dob).format('DD/MM/YYYY') + ` - (${moment(officer.dob).fromNow()})`;
+                    document.getElementById('span_bio').innerText =  officer.bio;
+                    document.getElementById('user_id_span').innerText = officer.id
                 } else {
                     alert(res.data.message);
                 }
@@ -148,11 +131,27 @@
                 alert(error.response.data.message);
             })
         } 
+        fetchOfficerInformation();
 
+        function deleteUser(){
+            let userId = document.getElementById('user_id_span').innerText;
 
-        if (getUser().role == 'voter') {
-            fetchVotingInformation();
-            document.getElementById('voter_uicard').classList.remove('hidden');
+            axios.delete(`../../api/profile/delete_user.php?user_id=${userId}`, {
+                headers : {
+                    'Authorization' : 'Bearer ' + getToken()
+                }
+            })
+            .then((res) => {
+                if (res.data.success) {
+                    alert('Record deleted successfully!')
+                    location.href = 'officers.php';
+                } else {
+                    alert(res.data.message);
+                }
+            })
+            .catch((error) => {
+                alert(error.response.data.message);
+            })
         }
     </script>
 </body>

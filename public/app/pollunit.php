@@ -58,7 +58,7 @@
                                 </div>
 
                                 <div>
-                                    <a href="add_pollunit.php" class="py-1 px-3 bg-primary text-sm font-semibold text-white rounded-lg inline-block">
+                                    <a id="add_poll_link" href="add_pollunit.php" class="py-1 px-3 bg-primary text-sm font-semibold text-white rounded-lg inline-block">
                                         <i class="fa fa-plus"></i> Add Polling Unit
                                     </a>
                                 </div>
@@ -101,7 +101,7 @@
                                     </h1>
 
                                     <div>
-                                        <a href="add_province.php" class="py-1 px-3 bg-primary text-xs font-semibold text-white rounded-lg inline-block">
+                                        <a id="add_province_link" href="add_province.php" class="py-1 px-3 bg-primary text-xs font-semibold text-white rounded-lg inline-block">
                                             <i class="fa fa-plus"></i> Add
                                         </a>
                                     </div>
@@ -229,6 +229,12 @@
             event.preventDefault();
             searchPollingUnits();
         })
+
+        // Restrict Adding Province and Polling Units for Election Officers
+        if (getUser().role == 'officer') {
+            document.getElementById('add_province_link').classList.add('hidden');
+            document.getElementById('add_poll_link').classList.add('hidden');
+        }
     </script>
 </body>
 </html>

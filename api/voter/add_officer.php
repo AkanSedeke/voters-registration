@@ -7,24 +7,24 @@
     include_once '../utils/connect.php';
     
     try {
-        include_once "../utils/AuthMiddleware.php";
+        // include_once "../utils/AuthMiddleware.php";
         
         if (isset($_POST['firstname']) || isset($_POST['lastname']) || isset($_POST['email'])) {
             // Recieve data from $_POST requests
-            $firstname = isset($_POST['firstname']) ? $_POST['firstname'] : null;
-            $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : null;
-            $email = isset($_POST['email']) ? $_POST['email'] : null;
+            $firstname = $_POST['firstname'];
+            $lastname = $_POST['lastname'];
+            $email = $_POST['email'];
             $phone = isset($_POST['phone']) ? $_POST['phone'] : null;
             $gender = isset($_POST['gender']) ? $_POST['gender'] : null;
             $dob = isset($_POST['dob']) ? $_POST['dob'] : null;
             $bio = isset($_POST['bio']) ? $_POST['bio'] : null;
-            $userid = $auth->user['id'];
+            $password = md5('123456');
 
             // Restrict Date of birth
             $yob = (int)date('Y', strtotime($dob));
             $currentYear = (int)date('Y', time());
             if (($currentYear - $yob) < 18) {
-                throw new Exception("You can't be less than 18 years!", 422);
+                throw new Exception("Officer can't be less than 18 years!", 422);
             }
 
             // Check if the request has file
@@ -33,22 +33,16 @@
                 $imagePath = uploadImage($_FILES['profile_image']);
             }
 
-            // Update Query String
-            if (!is_null($imagePath)) { // If image path is not null
-                $update_sql = "UPDATE users SET firstname='$firstname', lastname='$lastname', email='$email',
-                            phone='$phone', gender='$gender', dob='$dob', bio='$bio', photo='$imagePath' WHERE id='$userid'";
-            } else {
-                $update_sql = "UPDATE users SET firstname='$firstname', lastname='$lastname', email='$email',
-                            phone='$phone', gender='$gender', dob='$dob', bio='$bio' WHERE id='$userid'";
-            }
+            // Insert Query String
+            $insert_sql = "INSERT INTO users(firstname, lastname, email, phone, gender, dob, bio, photo, password, role)
+                         VALUES('$firstname', '$lastname', '$email', '$phone', '$gender', '$dob', '$bio', '$imagePath', '$password', 'officer')";
             
 
-            if ($conn->query($update_sql)) {
+            if ($conn->query($insert_sql)) {
                 header("HTTP/1 200");
                 echo json_encode([
                     'success' => true,
-                    'user' => getUserData($userid, $conn),
-                    'message' => 'User data updated successfully',
+                    'message' => 'User data inserted successfully',
                 ]);
             } else {
                 header("HTTP/1 500");
